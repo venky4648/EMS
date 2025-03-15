@@ -46,12 +46,12 @@ const DepartmentList = () => {
         }
     };
 
-    // ✅ Update state on delete
+    
     const onDepartmentDelete = (id) => {
         setDepartments((prevDepartments) => prevDepartments.filter(dep => dep._id !== id));
     };
 
-    // ✅ Filtered data based on search term
+    
     const filteredData = departments.filter(dep =>
         dep.dept_name.toLowerCase().includes(searchTerm.toLowerCase())
     );

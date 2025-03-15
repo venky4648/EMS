@@ -11,6 +11,8 @@ import AdminSummary from "./components/dashboard/AdminSummary.jsx";
 import DepartmentList from "./components/department/DepartmentList.jsx";
 import AddDepartment from "./components/department/AddDepartment.jsx";
 import EditDepartment from "./components/department/EditDepartment.jsx";
+import List from "./components/empoloyee/List.jsx";
+import Add from "./components/empoloyee/Add.jsx";
 
 function App() {
   return (
@@ -33,11 +35,14 @@ function App() {
           <Route exact path="/admin-dashboard/dashboard" element={<AdminSummary />} />
           <Route exact path="/admin-dashboard/department" element={<DepartmentList />} />
           <Route exact path="/admin-dashboard/department/add-department" element={<AddDepartment />} />
+          <Route exact path="/admin-dashboard/add-employee" element={<Add />} />
           <Route exact path="/admin-dashboard/department/:id" element={<EditDepartment />} />
-          <Route exact path="/admin-dashboard/employee" element={<AdminDashboard />} />
+          <Route exact path="/admin-dashboard/employee" element={<List />} />
           <Route exact path="/admin-dashboard/leave" element={<AdminDashboard />} />
           <Route exact path="/admin-dashboard/salary" element={<AdminDashboard />} />
           <Route exact path="/admin-dashboard/settings" element={<AdminDashboard />} />
+
+          
         </Route>
 
         <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
