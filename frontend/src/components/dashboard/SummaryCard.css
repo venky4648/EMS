@@ -1,0 +1,53 @@
+.summary-card {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon Styling */
+.summary-icon {
+    font-size: 2rem;
+    color: white;
+    padding: 12px;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+}
+
+/* Different Background Colors */
+.bg-yellow {
+    background-color: #E53935; /* Red */
+}
+
+.bg-blue {
+    background-color: #1E88E5; /* Blue */
+}
+
+.bg-green {
+    background-color: #43A047; /* Green */
+}
+
+/* Content Styling */
+.summary-content h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.summary-content p {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 4px 0 0;
+    color: #757575;
+    justify-content: center;
+    display: flex;
+    
+
+}
