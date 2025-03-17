@@ -71,3 +71,15 @@ export const addEmployee = async (req, res) => {
     return res.status(500).json({ success: false, error: "Server error in adding employee" });
   }
 };
+
+export const getEmployees = async(req,res)=>{
+  try{
+    const employees = await Employee.find()
+  .populate("userId", { password: 0 }) // Ensure the field name matches
+  .populate("department");
+    res.status(200).json({ success: true, employees });
+  }catch(error){
+    console.error(error);
+    return res.status(500).json({ success: false, error: "Server error in fetching employee" });
+  }
+}

@@ -7,6 +7,8 @@ import departmentRouter from './routes/department.js'
 import employeeRouter from './routes/employee.js'   
 connectDB()
 const app=express();
+app.use(express.static('public/uploads')); // Correct static path
+
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth",authRouter);
