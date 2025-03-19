@@ -65,21 +65,47 @@ export const addEmployee = async (req, res) => {
     });
 
     await newEmployee.save();
-    res.status(200).json({ success: true, message: "Employee added successfully" });
+    res
+      .status(200)
+      .json({ success: true, message: "Employee added successfully" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Server error in adding employee" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Server error in adding employee" });
   }
 };
 
-export const getEmployees = async(req,res)=>{
-  try{
+export const getEmployees = async (req, res) => {
+  try {
     const employees = await Employee.find()
-  .populate("userId", { password: 0 }) // Ensure the field name matches
-  .populate("department");
+      .populate("userId", { password: 0 }) // Ensure the field name matches
+      .populate("department");
     res.status(200).json({ success: true, employees });
-  }catch(error){
+  } catch (error) {
     console.error(error);
-    return res.status(500).json({ success: false, error: "Server error in fetching employee" });
+    return res
+      .status(500)
+      .json({ success: false, error: "Server error in fetching employee" });
   }
-}
+};
+
+export const getEmployee = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const employee = await Employee.findById(id)
+      .populate("userId", { password: 0 })
+      .populate("department");
+    if (employee) {
+      return res.status(200).json({ success: true, employee });
+    }
+    return res
+      .status(404)
+      .json({ success: false, message: "Employee not found" });
+  } catch (error) {
+    console.error(error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Server error in fetching employee" });
+  }
+};

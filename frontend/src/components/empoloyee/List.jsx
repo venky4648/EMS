@@ -31,7 +31,7 @@ const List = () => {
           sno: sno++,
           dept_name: emp.department.dep_name,
           name: emp.userId.name,
-          dob: new Date(emp.dob).toDateString(),
+          dob: new Date(emp.dob).toLocaleDateString(),
           profileImage: (
             <img
               src={`${baseUrl}/${emp.userId.profileImage}`} // Ensure full URL
