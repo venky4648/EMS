@@ -34,7 +34,7 @@ export const EmployeeButtons = ({ _id }) => {
   return (
     <div style={{ display: "flex", gap: "2px",borderRadius:"5px" }}>
       <button className="btn" onClick={() => navigate(`/admin-dashboard/employee/${_id}`)}>View</button>
-      <button className="btn" style={{ backgroundColor: "blue" }} onClick={() => navigate(`/edit-employee/${_id}`)}>Edit</button>
+      <button className="btn" style={{ backgroundColor: "blue" }} onClick={() => navigate(`/admin-dashboard/edit-employee/${_id}`)}>Edit</button>
       <button className="btn" style={{ backgroundColor: "green" }} onClick={() => navigate(`/salary/${_id}`)}>Salary</button>
       <button className="btn" style={{ backgroundColor: "orange" }} onClick={() => navigate(`/leave/${_id}`)}>Leave</button>
     </div>
@@ -56,7 +56,7 @@ const column = [
     },
     {
       name: "Name",
-      selector: (row) => row.dept_name,
+      selector: (row) => row.name,
       sortable: true,
       // width:"100px"
     },

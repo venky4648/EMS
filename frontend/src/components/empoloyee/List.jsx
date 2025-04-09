@@ -8,10 +8,18 @@ import DataTable from "react-data-table-component";
 const List = () => {
   const [employees, setEmployees] = useState([]);
   const [empLoading, setEmpLoading] = useState(true);
+  const [filteredEmployee, setFilteredEmployee] = useState([]);
 
   useEffect(() => {
     fetchEmployees();
   }, []);
+
+  const handleFilter = (e) => {
+    const records = employees.filter((emp) =>
+      emp.name.toLowerCase().includes(e.target.value.toLowerCase())
+    );
+    setFilteredEmployee(records);
+  };
 
   const fetchEmployees = async () => {
     setEmpLoading(true);
@@ -22,32 +30,32 @@ const List = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      
+
       if (response.data.success) {
         let sno = 1;
-        const baseUrl = "http://localhost:3000"; // Ensure base URL is correct
+        const baseUrl = "http://localhost:3000";
         const data = response.data.employees.map((emp) => ({
           _id: emp._id,
           sno: sno++,
-          dept_name: emp.department.dep_name,
-          name: emp.userId.name,
-          dob: new Date(emp.dob).toLocaleDateString(),
+          dept_name: emp.department?.dep_name || "N/A", // ✅ Safe access with fallback
+          name: emp.userId?.name || "N/A",
+          dob: emp.dob ? new Date(emp.dob).toLocaleDateString() : "N/A",
           profileImage: (
             <img
-              src={`${baseUrl}/${emp.userId.profileImage}`} // Ensure full URL
+              src={`${baseUrl}/${emp.userId?.profileImage || "default.jpg"}`}
               alt="Employee Profile"
-              style={{ width: "50px", height: "50px", borderRadius: "50%" }} // Optional: Styling for better display
+              style={{ width: "50px", height: "50px", borderRadius: "50%" }}
               onError={(e) => {
-                e.target.onerror = null; // Prevent infinite loop
-                e.target.src = "https://via.placeholder.com/50"; // Fallback image
+                e.target.onerror = null;
+                e.target.src = "https://via.placeholder.com/50";
               }}
             />
           ),
-          action: <EmployeeButtons _id={emp._id} />, // Corrected JSX component
+          action: <EmployeeButtons _id={emp._id} />,
         }));
 
         setEmployees(data);
-        console.log(data);
+        setFilteredEmployee(data);
       }
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -67,8 +75,9 @@ const List = () => {
       <div className="search-add">
         <input
           type="search"
-          placeholder="Search Department"
+          placeholder="Search Employee Name"
           className="search"
+          onChange={handleFilter}
         />
         <button className="btn">
           <Link to="/admin-dashboard/add-employee" className="add-dept">
@@ -77,14 +86,16 @@ const List = () => {
         </button>
       </div>
       <div>
-        {empLoading? (
+        {empLoading ? (
           <div>Loading...</div>
         ) : (
           <DataTable
             title="Employee List"
-            columns={column}  data={employees}/>
+            columns={column}
+            data={filteredEmployee}
+            pagination
+          />
         )}
-
       </div>
     </>
   );
