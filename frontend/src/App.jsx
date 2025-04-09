@@ -13,7 +13,8 @@ import AddDepartment from "./components/department/AddDepartment.jsx";
 import EditDepartment from "./components/department/EditDepartment.jsx";
 import List from "./components/empoloyee/List.jsx";
 import Add from "./components/empoloyee/Add.jsx";
-
+import ViewEmployee from "./components/empoloyee/view.jsx";
+import EditEmp from "./components/empoloyee/EditEmp.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -36,6 +37,8 @@ function App() {
           <Route exact path="/admin-dashboard/department" element={<DepartmentList />} />
           <Route exact path="/admin-dashboard/department/add-department" element={<AddDepartment />} />
           <Route exact path="/admin-dashboard/add-employee" element={<Add />} />
+          <Route exact path="/admin-dashboard/employee/:id" element={<ViewEmployee />} />
+          <Route exact path="/admin-dashboard/edit-employee/:id" element={<EditEmp />} />
           <Route exact path="/admin-dashboard/department/:id" element={<EditDepartment />} />
           <Route exact path="/admin-dashboard/employee" element={<List />} />
           <Route exact path="/admin-dashboard/leave" element={<AdminDashboard />} />
@@ -46,6 +49,7 @@ function App() {
         </Route>
 
         <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
+        
       </Routes>
     </BrowserRouter>
   );
