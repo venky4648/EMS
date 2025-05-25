@@ -16,6 +16,7 @@ import Add from "./components/empoloyee/Add.jsx";
 import ViewEmployee from "./components/empoloyee/view.jsx";
 import EditEmp from "./components/empoloyee/EditEmp.jsx";
 import AddSalary from "./components/salary/Add.jsx";
+import ViewSalary from "./components/salary/ViewSalary.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/admin-dashboard/edit-employee/:id" element={<EditEmp />} />
           <Route exact path="/admin-dashboard/department/:id" element={<EditDepartment />} />
           <Route exact path="/admin-dashboard/employee" element={<List />} />
+          <Route exact path="/admin-dashboard/employees/salary/:id" element={<ViewSalary />} />
           <Route exact path="/admin-dashboard/leave" element={<AdminDashboard />} />
           <Route exact path="/admin-dashboard/salary/add" element={<AddSalary />} />
           <Route exact path="/admin-dashboard/settings" element={<AdminDashboard />} />

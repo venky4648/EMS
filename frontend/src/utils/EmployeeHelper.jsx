@@ -62,7 +62,7 @@ export const EmployeeButtons = ({ _id }) => {
     <div style={{ display: "flex", gap: "2px",borderRadius:"5px" }}>
       <button className="btn" onClick={() => navigate(`/admin-dashboard/employee/${_id}`)}>View</button>
       <button className="btn" style={{ backgroundColor: "blue" }} onClick={() => navigate(`/admin-dashboard/edit-employee/${_id}`)}>Edit</button>
-      <button className="btn" style={{ backgroundColor: "green" }} onClick={() => navigate(`/salary/${_id}`)}>Salary</button>
+      <button className="btn" style={{ backgroundColor: "green" }} onClick={() => navigate(`/admin-dashboard/employees/salary/${_id}`)}>Salary</button>
       <button className="btn" style={{ backgroundColor: "orange" }} onClick={() => navigate(`/leave/${_id}`)}>Leave</button>
     </div>
   );

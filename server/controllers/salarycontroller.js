@@ -29,3 +29,29 @@ export const addSalary = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error in adding salary" });
   }
 };
+
+export const getSalary = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // console.log("Fetching salary for employeeId:", id); // Debug log
+
+    const salaryDetails = await salary.find({ employeeId: id }).populate("employeeId");
+
+    if (!salaryDetails || salaryDetails.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No salary details found for this employee",
+      });
+    }
+
+    res.status(200).json({ success: true, salary: salaryDetails });
+
+  } catch (error) {
+    console.error("Error fetching salary:", error);
+    res.status(500).json({
+      success: false,
+      message: "Server error in fetching salary",
+    });
+  }
+};
+

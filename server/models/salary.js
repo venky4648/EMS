@@ -1,3 +1,4 @@
+
 import mongoose from "mongoose";
 const { Schema } = mongoose;
 
@@ -36,5 +37,5 @@ const salarySchema = new Schema({
   },
 });
 
-const Salary = mongoose.model("Salary", salarySchema);
-export default Salary;
+const salary = mongoose.model("salary", salarySchema);
+export default salary;
