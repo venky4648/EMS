@@ -26,6 +26,33 @@ export const fetchDepartment = async () => {
   return departments;
 };
 
+// employees for salary
+
+export const getEmployees = async (id) => {
+  let employees = [];
+  try {
+    const response = await axios.get(`http://localhost:3000/api/employee/department/${id}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    });
+
+    if (response.data.success) {
+      employees = response.data.employees;  // Adjusted to 'employees'
+    }
+
+    console.log("Employees fetched:", response.data);
+  } catch (error) {
+    console.error("Error fetching employees:", error);
+    if (error.response?.data?.message) {
+      alert(error.response.data.message);
+    }
+  }
+  return employees;
+};
+
+
 
 
 export const EmployeeButtons = ({ _id }) => {

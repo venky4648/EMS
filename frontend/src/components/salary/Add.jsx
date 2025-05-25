@@ -1,183 +1,160 @@
-// /* eslint-disable no-unused-vars */
-// import React, { useState, useEffect } from 'react';
-// import axios from 'axios';
-// import { useParams, useNavigate } from 'react-router-dom';
+// eslint-disable-next-line no-unused-vars
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { fetchDepartment, getEmployees } from '../../utils/EmployeeHelper';
 
-// const Add = () => {
-//   const [employee, setEmployee] = useState({
-//     name: '',
-//     maritalStatus: '',
-//     department: '',
-//     designation: '',
-//     salary: '',
-    
-//   });
+const Add = () => {
+  const [salary, setSalary] = useState({
+    employeeId: '',
+    basicSalary: 0,
+    allowances: 0,
+    deductions: 0,
+    payDate: '',
+  });
 
-//   const [departments, setDepartments] = useState([]);
-//   const [empLoading, setEmpLoading] = useState(false);
-//   const { id } = useParams();
-//   const navigate = useNavigate();
+  const [employees, setEmployees] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [empLoading, setEmpLoading] = useState(false);
+  const navigate = useNavigate();
+  
+  // Fetch departments on mount
+  useEffect(() => {
+    const getDepartments = async () => {
+      const departmnets = await fetchDepartment();
+      setDepartments(departmnets || []);
+    };
+    getDepartments();
+  }, []);
 
-//   // Fetch employee details
-//   useEffect(() => {
-//     const fetchEmployee = async () => {
-//       setEmpLoading(true);
-//       try {
-//         const response = await axios.get(`http://localhost:3000/api/employee/${id}`, {
-//           headers: {
-//             "Content-Type": "application/json",
-//             Authorization: `Bearer ${localStorage.getItem("token")}`,
-//           },
-//         });
+  const handleDepartment = async (e) => {
+    const emps = await getEmployees(e.target.value);
+    setEmployees(emps || []);
+  };
 
-//         if (response.data.success) {
-//           const fetchedEmp = response.data.employee;
-//           setEmployee({
-//             name: fetchedEmp.userId?.name || '',
-//             maritalStatus: fetchedEmp.maritalStatus || '',
-//             department: fetchedEmp.department?._id || '',  // ✅ Just the department ID
-//             designation: fetchedEmp.designation || '',
-//             salary: fetchedEmp.salary || '',
-            
-//           });
-//         }
-//       } catch (error) {
-//         console.error("Error fetching employee:", error);
-//       } finally {
-//         setEmpLoading(false);
-//       }
-//     };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setSalary((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-//     fetchEmployee();
-//   }, [id]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post(`http://localhost:3000/api/salary/add`, salary, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-//   // Fetch departments
-//   useEffect(() => {
-//     fetchDepartments();
-// }, []);
+      if (response.data.success) {
+        alert('Salary details added successfully');
+        navigate('/admin-dashboard/employee');
+      }
+    } catch (error) {
+      console.error("Error adding salary:", error);
+      alert('Failed to add salary details');
+    }
+  };
 
-// const fetchDepartments = async () => {
-//     try {
-//         const response = await axios.get("http://localhost:3000/api/department/all", {
-//             headers: {
-//                 "Content-Type": "application/json",
-//                 Authorization: `Bearer ${localStorage.getItem("token")}`,
-//             },
-//         });
+  return (
+    <>
+      {empLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <div className="container">
+          <h2>Add Salary</h2>
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label>Department</label>
+              <select
+                name="department"
+                onChange={handleDepartment}
+                className="input-field"
+                required
+              >
+                <option value="">Select Department</option>
+                {departments.map((dep) => (
+                  <option key={dep._id} value={dep._id}>
+                    {dep.dep_name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-//         if (response.data.success) {
-//             setDepartments(response.data.departments);
-//         }
-//     } catch (error) {
-//         console.error("Error fetching departments:", error);
-//         if (error.response?.data?.message) {
-//             alert(error.response.data.message);
-//         }
-//     }
-   
+            <div className="form-group">
+              <label>Employee</label>
+              <select
+                name="employeeId"
+                onChange={handleChange}
+                className="input-field"
+                required
+              >
+                <option value="">Select Employee</option>
+                {employees.map((emp) => (
+                  <option key={emp._id} value={emp._id}>
+                    {emp.employeeId}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-//   };
+            <div className="form-group">
+              <label>Basic Salary</label>
+              <input
+                type="number"
+                name="basicSalary"
+                onChange={handleChange}
+                className="input-field"
+                placeholder="Basic Salary"
+                required
+              />
+            </div>
 
-//   const handleChange = (e) => {
-//     const { name, value } = e.target;
-//     setEmployee((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   };
+            <div className="form-group">
+              <label>Allowances</label>
+              <input
+                type="number"
+                name="allowances"
+                onChange={handleChange}
+                className="input-field"
+                placeholder="Allowances"
+                required
+              />
+            </div>
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//       const response = await axios.put(`http://localhost:3000/api/employee/${id}`, employee, {
-//         headers: {
-//           Authorization: `Bearer ${localStorage.getItem("token")}`,
-//         },
-//       });
+            <div className="form-group">
+              <label>Deductions</label>
+              <input
+                type="number"
+                name="deductions"
+                onChange={handleChange}
+                className="input-field"
+                placeholder="Deductions"
+                required
+              />
+            </div>
 
-//       if (response.data.success) {
-//         alert('Employee updated successfully');
-//         navigate('/admin-dashboard/employee');
-//       }
-//     } catch (error) {
-//       console.error("Error updating employee:", error);
-//       alert('Failed to update employee');
-//     }
-//   };
+            <div className="form-group">
+              <label>Pay Date</label>
+              <input
+                type="date"
+                name="payDate"
+                value={salary.payDate}
+                onChange={handleChange}
+                className="input-field"
+                required
+              />
+            </div>
 
-//   return (
-//     <>
-//       {empLoading ? (
-//         <div>Loading...</div>
-//       ) : (
-//         <>
-//         <div className="container">
-//           <h2>Add salary</h2>
-//           <form onSubmit={handleSubmit} encType="multipart/form-data">
-//                 <div className="form-group">
-//                         <label>Department</label>
-//                         <select
-//                         name="department"
-//                         value={employee.department}
-//                         onChange={handleChange}
-//                         className="input-field"
-//                         required
-//                         >
-//                         <option value="">Select Department</option>
-//                         {departments.map((dep) => (
-//                             <option key={dep._id} value={dep._id}>
-//                             {dep.dep_name}
-//                             </option>
-//                         ))}
-//                         </select>
-//                     </div>
-//               <div className="form-group">
-//                 <label>Marital Status</label>
-//                 <select
-//                   name="maritalStatus"
-//                   value={employee.maritalStatus}
-//                   onChange={handleChange}
-//                   className="input-field"
-//                   required
-//                 >
-//                   <option value="">Select Status</option>
-//                   <option value="Single">Single</option>
-//                   <option value="Married">Married</option>
-//                 </select>
-//               </div>
-              
-//               <div className="form-group">
-//                 <label>Designation</label>
-//                 <input
-//                   type="text"
-//                   name="designation"
-//                   value={employee.designation}
-//                   onChange={handleChange}
-//                   className="input-field"
-//                   placeholder="Designation"
-//                   required
-//                 />
-//               </div>
-//               <div className="form-group">
-//                 <label>Salary</label>
-//                 <input
-//                   type="number"
-//                   name="salary"
-//                   value={employee.salary}
-//                   onChange={handleChange}
-//                   className="input-field"
-//                   placeholder="Salary"
-//                   required
-//                 />
-//               </div>
-              
-//             </div>
-//             <button type="submit" className="submit-btn">Edit Employee</button>
-//           </form>
-//         </div>
-//       </>)}
-//     </>
-//   );
-// };
+            <button type="submit" className="submit-btn">Add Salary</button>
+          </form>
+        </div>
+      )}
+    </>
+  );
+};
 
-// export default Add;
+export default Add;

@@ -147,3 +147,21 @@ export const updateEmployee = async (req,res)=>{
   
 
 }
+
+
+export const fetchEmployeesByDepId = async (req, res) => {
+  const { id } = req.params;
+  console.log("received departmnet ID:",id);
+  try {
+    const employees = await Employee.find({ department: id });
+
+    if (employees.length > 0) {
+      return res.status(200).json({ success: true, employees }); // Changed 'employee' to 'employees'
+    }
+
+    return res.status(404).json({ success: false, message: "Employee not found" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ success: false, error: "get employeeDepId server error" });
+  }
+};
