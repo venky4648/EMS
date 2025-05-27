@@ -4,12 +4,12 @@ import { useAuth } from "../../context/authContext";
 import "./AminSidebar.css"
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user,logout } = useAuth();
   
   return (
     <div className="navbar">
       <p>Welcome, {user ? user.name : "Guest"}</p>
-      <button className="logout-btn">Logout</button>
+      <button className="logout-btn" onClick={logout}>Logout</button>
     </div>
   );
 };

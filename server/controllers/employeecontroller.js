@@ -94,12 +94,21 @@ export const getEmployees = async (req, res) => {
 export const getEmployee = async (req, res) => {
   const { id } = req.params;
   try {
-    const employee = await Employee.findById(id)
+    let employee = await Employee.findById(id)
       .populate("userId", { password: 0 })
       .populate("department");
+
+    if (!employee) {
+      // Try finding by userId instead of _id
+      employee = await Employee.findOne({ userId: id })
+        .populate("userId", { password: 0 })
+        .populate("department");
+    }
+
     if (employee) {
       return res.status(200).json({ success: true, employee });
     }
+
     return res
       .status(404)
       .json({ success: false, message: "Employee not found" });
