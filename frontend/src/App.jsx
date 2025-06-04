@@ -20,6 +20,8 @@ import AddSalary from "./components/salary/Add.jsx";
 import ViewSalary from "./components/salary/ViewSalary.jsx";
 import SummaryCard from "./pages/EmployeeDashboard/Summary.jsx";
 import View from './components/empoloyee/view.jsx';
+import ViewList from './components/leave/List.jsx';
+import AddLeaves from './components/leave/Add.jsx';
 function App() {
   return (
     <BrowserRouter>
@@ -64,6 +66,8 @@ function App() {
         >
           <Route index element={<SummaryCard />} />
           <Route exact path="/employee-dashboard/profile/:id" element={<View />} />
+          <Route exact path="/employee-dashboard/leave" element={<ViewList />} />
+          <Route exact path="/employee-dashboard/add-leave" element={<AddLeaves />} />
         </Route>
       </Routes>
     </BrowserRouter>
