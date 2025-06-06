@@ -17,11 +17,12 @@ import Add from "./components/empoloyee/Add.jsx";
 import ViewEmployee from "./components/empoloyee/view.jsx";
 import EditEmp from "./components/empoloyee/EditEmp.jsx";
 import AddSalary from "./components/salary/Add.jsx";
-import ViewSalary from "./components/salary/ViewSalary.jsx";
+import ViewSalary from "./components/salary/viewsalary.jsx";
 import SummaryCard from "./pages/EmployeeDashboard/Summary.jsx";
 import View from './components/empoloyee/view.jsx';
 import ViewList from './components/leave/List.jsx';
 import AddLeaves from './components/leave/Add.jsx';
+import Setting from "./components/EmployeeDashboard/Setting.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -68,6 +69,8 @@ function App() {
           <Route exact path="/employee-dashboard/profile/:id" element={<View />} />
           <Route exact path="/employee-dashboard/leave" element={<ViewList />} />
           <Route exact path="/employee-dashboard/add-leave" element={<AddLeaves />} />
+          <Route exact path="/employee-dashboard/salary/:id" element={<ViewSalary />} />
+          <Route exact path="/employee-dashboard/settings" element={<Setting />} />
         </Route>
       </Routes>
     </BrowserRouter>

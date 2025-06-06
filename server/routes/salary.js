@@ -8,5 +8,6 @@ route.post("/add",authMiddeleware,addSalary)
 route.get("/:id",authMiddeleware,getSalary)
 
 
+
 export default route;
 

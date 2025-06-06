@@ -59,6 +59,8 @@ const Add = () => {
     }
   };
 
+  
+
   return (
     <>
       {empLoading ? (

@@ -30,3 +30,22 @@ export const addleave = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error in adding leave request" });
   }
 };
+export const getLeaves = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // findOne instead of find, because you're expecting a single employee per userId
+    const employee = await Employee.findOne({ userId: id });
+
+    if (!employee) {
+      return res.status(404).json({ success: false, message: "Employee not found" });
+    }
+
+    const leaves = await Leaves.find({ employeeId: employee._id });
+    res.status(200).json({ success: true, leaves });
+
+  } catch (error) {
+    console.error("Error fetching leaves:", error);
+    res.status(500).json({ success: false, message: "Server error in fetching leaves" });
+  }
+};
