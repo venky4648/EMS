@@ -13,7 +13,7 @@ const AdminSidebar = () => {
     { name: "employee", icon: <FaUser />, path: "/admin-dashboard/employee" },
     { name: "department", icon: <FaBuilding />, path: "/admin-dashboard/department" },
     { name: "leave", icon: <FaCalendarAlt />, path: "/admin-dashboard/leave" },
-    { name: "salary", icon: <FaMoneyBill />, path: "/admin-dashboard/salary" },
+    { name: "salary", icon: <FaMoneyBill />, path: "/admin-dashboard/salary/add" },
     { name: "settings", icon: <FaCog />, path: "/admin-dashboard/settings" },
   ];
 
